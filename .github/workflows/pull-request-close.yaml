@@ -16,6 +16,8 @@ env:
 
 jobs:
   teardown-pr-app:
-    - uses: actions/checkout@v3
-    - name: delete cloudformation stack
-      run: aws cloudformation delete-stack --stack-name geof-pr-1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: delete cloudformation stack
+        run: aws cloudformation delete-stack --stack-name geof-pr-1
