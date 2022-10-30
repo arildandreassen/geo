@@ -28,7 +28,6 @@ jobs:
           template: serverless.yaml
           no-fail-on-empty-changeset: '1'
           parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
-      - name: 
       - name: Build App
         run: yarn run build
         env:   
