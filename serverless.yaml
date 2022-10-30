@@ -3,29 +3,24 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   Name: 
     Type: String
-    Default: geof-name
+    Default: geof-name-1
 
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Ref Name
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls : true
-        BlockPublicPolicy : true
-        IgnorePublicAcls : true
-        RestrictPublicBuckets : true
-      VersioningConfiguration:
-        Status: Enabled
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-        - ServerSideEncryptionByDefault:
-            SSEAlgorithm: 'AES256'
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+        
 
   # The Amazon S3 bucket policy for securing the bucket hosting the application
-  BucketPolicy:
+  S3BucketAccessPolicy:
     Type: 'AWS::S3::BucketPolicy'
     Properties:
+      Bucket: !Ref S3Bucket
       PolicyDocument:
         Id: MyPolicy
         Version: 2012-10-17
@@ -33,31 +28,39 @@ Resources:
           - Sid: PolicyForCloudFrontPrivateContent
             Effect: Allow
             Principal:
-              CanonicalUser: !GetAtt CFOriginAccessIdentity.S3CanonicalUserId
+              CanonicalUser: '*'
             Action: 's3:GetObject*'
-            Resource: !Join 
-              - ''
-              - - 'arn:aws:s3:::'
-                - !Ref S3Bucket
-                - /*
-      Bucket: !Ref S3Bucket
+            Resource: !Sub arn:aws:s3:::${S3Bucket}/*
+
   
-  CFDistribution:
+  CloudFrontDistribution:
     #checkov:skip=CKV_AWS_68: "For demo purposes and to reduce cost, no WAF is configured"
     Type: 'AWS::CloudFront::Distribution'
-    DependsOn:
-      - CFOriginAccessIdentity
     Properties:
       DistributionConfig:
         Enabled: 'true'
+        Origins:
+          - DomainName: !Sub ${S3Bucket}.s3.amazonaws.com
+            Id: myS3Origin
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+              HTTPPort: 80
+              HTTPSPort: 443
         DefaultRootObject: index.html
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
         DefaultCacheBehavior:
-          AllowedMethods:
-          - GET
-          - HEAD
-          - OPTIONS
+          AllowedMethods: [HEAD, DELETE, POST, GET, OPTIONS, PUT, PATCH]
           TargetOriginId: myS3Origin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
           CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # CachingOptimized
           OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf # CORS-S3Origin
           ViewerProtocolPolicy: redirect-to-https
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
         PriceClass: PriceClass_All
