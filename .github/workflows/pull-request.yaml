@@ -14,5 +14,6 @@ env:
 jobs:
   deploy-pr-app:
     uses: ./.github/workflows/deploy-to-aws.yaml
+    secrets: inherit
     with: 
       stack-suffix: -PR-${{ github.event.pull_request.number }}
