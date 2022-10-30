@@ -1,0 +1,30 @@
+name: Deploy to AWS
+
+concurrency: pr-build-${{ github.event.pull_request.number }}
+
+on:
+  workflow_call:
+    inputs:
+      stack-suffix:
+        description: A string to append to the app's stack names. Intended for use with deploying stacks to the same account for PR app purposes.
+        required: false
+        type: string
+
+jobs:
+  create-stack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+      - name: Deploy to AWS CloudFormation
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: geof-${{ inputs.stack-suffix }}
+          template: serverless.yaml
+          no-fail-on-empty-changeset: '1'
+          parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
