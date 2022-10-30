@@ -14,7 +14,7 @@ jobs:
   create-stack:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -28,7 +28,10 @@ jobs:
           template: serverless.yaml
           no-fail-on-empty-changeset: '1'
           parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
+      - name: 
       - name: Build App
         run: yarn run build
+        env:   
+          CI: false
       - name: Deploy To S3
         run: aws s3 cp ./build s3://geof-pr-${{ inputs.stack-suffix }}
