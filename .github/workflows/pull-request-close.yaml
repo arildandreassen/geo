@@ -1,0 +1,21 @@
+name: Pull Request Close
+
+# This makes workflows for PRs with the specified key run only one at a time. This prevents race conditions with this
+# workflow running and the pr-close teardown workflow running.
+concurrency: pr-build-${{ github.event.pull_request.number }}
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+env:
+  AWS_DEFAULT_REGION: us-west-2
+
+jobs:
+  teardown-pr-app:
+    - uses: actions/checkout@v3
+    - name: delete cloudformation stack
+      run: aws cloudformation delete-stack --stack-name geof-pr-1
