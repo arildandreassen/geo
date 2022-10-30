@@ -30,7 +30,7 @@ jobs:
           parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
       - name: Build App
         run: yarn run build
-        env:   
+        env:
           CI: false
       - name: Deploy To S3
         run: aws s3 cp ./build s3://geof-pr-${{ inputs.stack-suffix }}
