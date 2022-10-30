@@ -41,11 +41,6 @@ Resources:
                 - !Ref S3Bucket
                 - /*
       Bucket: !Ref S3Bucket
-
-  CFOriginAccessIdentity:
-    Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
-    DependsOn:
-      - S3Bucket
   
   CFDistribution:
     #checkov:skip=CKV_AWS_68: "For demo purposes and to reduce cost, no WAF is configured"
@@ -54,11 +49,6 @@ Resources:
       - CFOriginAccessIdentity
     Properties:
       DistributionConfig:
-        Origins:
-        - DomainName: !GetAtt S3Bucket.RegionalDomainName
-          Id: myS3Origin
-          S3OriginConfig:
-            OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CFOriginAccessIdentity}"
         Enabled: 'true'
         DefaultRootObject: index.html
         DefaultCacheBehavior:
