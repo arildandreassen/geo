@@ -20,11 +20,15 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-1
-      - name: Deploy to AWS CloudFormation
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Deploy Stack to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: geof-${{ inputs.stack-suffix }}
           template: serverless.yaml
           no-fail-on-empty-changeset: '1'
           parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
+      - name: Build App
+        run: yarn run build
+      - name: Deploy To S3
+        run: aws s3 cp ./build s3://geof-pr-${{ inputs.stack-suffix }}
