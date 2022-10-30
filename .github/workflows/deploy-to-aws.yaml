@@ -10,6 +10,7 @@ on:
 
 jobs:
   create-stack:
+    - runs-on: ubuntu-latest
     - name: Checkout
       uses: actions/checkout@v2
     - name: Configure AWS Credentials
