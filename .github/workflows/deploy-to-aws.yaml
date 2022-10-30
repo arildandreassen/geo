@@ -1,5 +1,7 @@
 name: Deploy to AWS
 
+concurrency: pr-build-${{ github.event.pull_request.number }}
+
 on:
   workflow_call:
     inputs:
@@ -10,18 +12,21 @@ on:
 
 jobs:
   create-stack:
-    - runs-on: ubuntu-latest
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
-    - name: Deploy to AWS CloudFormation
-      uses: aws-actions/aws-cloudformation-github-deploy@v1
-      with:
-        name: geof-${{ inputs.stack-suffix }}
-        template: serverless.yaml
-        parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+      - name: test
+        run: echo 'hello world'
+      # - name: Deploy to AWS CloudFormation
+      #   uses: aws-actions/aws-cloudformation-github-deploy@v1
+      #   with:
+      #     name: geof-${{ inputs.stack-suffix }}
+      #     template: serverless.yaml
+      #     parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
