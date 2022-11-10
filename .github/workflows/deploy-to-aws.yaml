@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: yarn install    
       - name: Build App
-        run: yarn run build
+        run: API_BASE_URL=api-test yarn run build
         env:
           CI: false
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
