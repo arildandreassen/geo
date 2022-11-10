@@ -10,7 +10,7 @@ function App() {
 
   return <div className="App">
     <div>
-      <button onClick={handleClick}>Save Country</button>
+      <button onClick={handleClick}>Save Countries</button>
     </div>
   </div>;
 }
