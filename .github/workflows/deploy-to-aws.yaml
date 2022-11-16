@@ -33,7 +33,9 @@ jobs:
           no-fail-on-empty-changeset: '1'
           parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
       - name: Install dependencies
-        run: yarn install    
+        run: yarn install
+      - name: Set config file
+        run:  yarn run setconfig dev
       - name: Build App
         run: API_BASE_URL=api-test yarn run build
         env:

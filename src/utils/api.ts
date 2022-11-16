@@ -1,9 +1,11 @@
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://bkrz3yt5p0.execute-api.us-west-1.amazonaws.com/dev/'
+import {config} from '../env/dev.config'
 
 const getCountry = async () => {
-    await fetch(API_BASE_URL)
-    .then(response => response.json())
-    .then(console.log)
+    console.log(config.BASE_URL)
+    console.log(process.env.NODE_ENV)
+    // await fetch(API_BASE_URL)
+    // .then(response => response.json())
+    // .then(console.log)
 }
 
 export {
