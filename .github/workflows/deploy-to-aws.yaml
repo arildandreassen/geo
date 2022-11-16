@@ -39,12 +39,5 @@ jobs:
         env:
           CI: false
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_REACT_APP_API_BASE_URL: https://bkrz3yt5p0.execute-api.us-west-1.amazonaws.com/dev/
-          directory: ./build
-          file_name: .env
-          fail_on_empty: false
       - name: Deploy To S3
-        run: aws s3 cp ./build s3://geof-${{ inputs.stack-suffix }} --recursive
+        run: aws s3 sync ./build s3://geof-${{ inputs.stack-suffix }}
