@@ -1,4 +1,4 @@
-import {config} from '../env/dev.config'
+import {config} from '../env/config'
 
 const getCountry = async () => {
     console.log(config.BASE_URL)
