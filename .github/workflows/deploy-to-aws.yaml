@@ -9,6 +9,10 @@ on:
         description: A string to append to the app's stack names. Intended for use with deploying stacks to the same account for PR app purposes.
         required: false
         type: string
+      targetEnv:
+        description: Determines where to look for the Backend API URL
+        required: true
+        type: string
 
 jobs:
   deploy-app:
@@ -29,10 +33,13 @@ jobs:
           no-fail-on-empty-changeset: '1'
           parameter-overrides: "Name=geof-${{ inputs.stack-suffix }}"
       - name: Install dependencies
-        run: yarn install    
+        run: yarn install
+      - name: Set config file
+        run:  yarn run setconfig dev
       - name: Build App
-        run: yarn run build
+        run: API_BASE_URL=api-test yarn run build
         env:
           CI: false
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
       - name: Deploy To S3
-        run: aws s3 cp ./build s3://geof-${{ inputs.stack-suffix }} --recursive
+        run: aws s3 sync ./build s3://geof-${{ inputs.stack-suffix }}
