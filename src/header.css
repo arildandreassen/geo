@@ -1,0 +1,10 @@
+.header-container {
+    display: grid;
+    grid-template-columns: [logo] auto [home] 100px [high scores] 100px [flags] 100px [borders] 100px;
+    grid-template-rows: [line] 50px;
+    border: 1px solid black;
+}
+
+.header-items {
+    justify-self: start;
+}

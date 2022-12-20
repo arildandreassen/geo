@@ -1,11 +1,10 @@
 import {config} from '../env/config'
 
-const getCountry = async () => {
-    await fetch(config.BASE_URL)
-    .then(response => response.json())
-    .then(console.log)
-}
+const getCountry = async (id: string) => await fetch(`${config.BASE_URL}/countries/${id}`).then(async response => await response.json())
+
+const listCountries = async () => await fetch(`${config.BASE_URL}/countries`).then(async response => await response.json())
 
 export {
-    getCountry
+    getCountry,
+    listCountries
 }
