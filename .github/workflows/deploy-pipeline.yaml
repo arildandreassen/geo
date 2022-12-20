@@ -12,4 +12,5 @@ jobs:
     uses: ./.github/workflows/deploy-to-aws.yaml
     secrets: inherit
     with:
+      stack-suffix: dev
       targetEnv: 'dev'
