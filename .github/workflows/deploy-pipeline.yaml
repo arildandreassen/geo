@@ -3,12 +3,13 @@ name: Deploy to AWS
 concurrency: deploy
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
   deploy-dev:
     uses: ./.github/workflows/deploy-to-aws.yaml
+    secrets: inherit
     with:
       targetEnv: 'dev'
