@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   Name: 
     Type: String
-    Default: geof-name-1
+    Default: geobrawl-frontend-name-1
 
 Resources:
   S3Bucket:

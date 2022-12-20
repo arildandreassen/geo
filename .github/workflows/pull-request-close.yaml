@@ -22,6 +22,6 @@
 #           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 #           aws-region: ${{ secrets.AWS_REGION }}
 #       - name: empty the s3 bucket
-#         run: aws s3 rm --recursive s3://geof-pr-${{ github.event.pull_request.number }}
+#         run: aws s3 rm --recursive s3://geobrawl-frontend-pr-${{ github.event.pull_request.number }}
 #       - name: delete cloudformation stack
-#         run: aws cloudformation delete-stack --stack-name geof-pr-${{ github.event.pull_request.number }}
+#         run: aws cloudformation delete-stack --stack-name geobrawl-frontend-pr-${{ github.event.pull_request.number }}
