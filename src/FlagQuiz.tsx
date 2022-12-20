@@ -7,6 +7,7 @@ import { useEffect, useState, useContext } from 'react';
 import {FlagQuestions} from './types/types'
 import FlagImage from './FlagImage';
 import './FlagQuiz.css'
+import {numericalSort} from './utils/sorts'
 
 interface FlagProps{
     quiz:FlagQuestions[],
@@ -31,7 +32,7 @@ function FlagQuiz({quiz, setQuiz, result, setResult}: FlagProps){
 
     useEffect(() => {
         const combinedResultIds = [quiz[0].correctAnswerId,...quiz[0].incorrectAnswerIds]
-        combinedResultIds.sort()
+        combinedResultIds.sort(numericalSort).reverse()
         setCombinedCountryIds(combinedResultIds)
     }, [quiz])
 
