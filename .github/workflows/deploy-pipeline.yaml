@@ -1,0 +1,15 @@
+name: Deploy to AWS
+
+concurrency: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-dev:
+    uses: ./deploy-to-aws.yml
+    with:
+      stage: dev
+      environment: development
