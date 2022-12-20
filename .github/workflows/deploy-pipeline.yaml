@@ -11,5 +11,5 @@ jobs:
   deploy-dev:
     uses: ./.github/workflows/deploy-to-aws.yaml
     with:
-      stage: dev
       environment: development
+      targetEnv: 'dev'
