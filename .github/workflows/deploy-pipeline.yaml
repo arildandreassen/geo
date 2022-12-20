@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy-dev:
-    uses: ./deploy-to-aws.yaml
+    uses: ./.github/workflows/deploy-to-aws.yaml
     with:
       stage: dev
       environment: development
