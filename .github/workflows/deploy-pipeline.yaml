@@ -10,10 +10,14 @@ on:
 jobs:
   deploy-dev:
 <<<<<<< HEAD
+<<<<<<< HEAD
     uses: ./.github/workflows/deploy-to-aws.yaml
 =======
     uses: ./deploy-to-aws.yaml
 >>>>>>> 45f8868 (fuxed typo)
+=======
+    uses: ./.github/workflows/deploy-to-aws.yaml
+>>>>>>> 3685928 (updated workflow\)
     with:
       stage: dev
       environment: development
