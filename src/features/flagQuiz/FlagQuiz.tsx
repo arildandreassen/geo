@@ -1,64 +1,59 @@
 import * as React from 'react';
 import {
     useQuery,
-  } from '@tanstack/react-query'
-import {listCountries} from '../../services/api'
+} from '@tanstack/react-query'
+import {listCountries} from '../../services/countries'
 import { useEffect, useState, useContext } from 'react';
-import {FlagQuestions} from '../../types/types'
+import {Country, FlagQuestions} from '../../types/types'
 import FlagImage from './FlagImage';
 import './FlagQuiz.css'
 import {numericalSort} from '../../utils/sorts'
 
 interface FlagProps{
     quiz:FlagQuestions[],
-    setQuiz:any,
-    result: any,
-    setResult: any
 }
 
-interface Country {
-    id: string,
-    name: string,
-    country_code: string
-}
-
-function FlagQuiz({quiz, setQuiz, result, setResult}: FlagProps){
-    const[combinedCountryIds, setCombinedCountryIds] = useState([])
-    const {isError, isSuccess, data
+function FlagQuiz({quiz}: FlagProps){
+    const [combinedCountryIds, setCombinedCountryIds] = useState([])
+    const [quizIndex, setQuizIndex] = useState(0)
+    const [isEnded, setIsEnded] = useState(false)
+    const {data
     } = useQuery(
         ['countries'],
         listCountries
     )
 
     useEffect(() => {
-        const combinedResultIds = [quiz[0].correctAnswerId,...quiz[0].incorrectAnswerIds]
+        loadQuizAtIndex(quiz, quizIndex)
+    }, [quiz, quizIndex])
+
+    const loadQuizAtIndex = (quiz: FlagQuestions[], quizIndex: number) => {
+        const combinedResultIds = [quiz[quizIndex].correctAnswerId,...quiz[quizIndex].incorrectAnswerIds]
         combinedResultIds.sort(numericalSort).reverse()
         setCombinedCountryIds(combinedResultIds)
-    }, [quiz])
+    }
 
 
     const handleCountryClick = (event: any) => {
         const guessedId = event.target.getAttribute('data-country-id')
-        if(quiz[0].correctAnswerId === Number(guessedId)){
+        if(quiz[quizIndex].correctAnswerId === Number(guessedId)){
             console.log('correct')
-            setResult((res: any) => {
-                return res+1
-            })
         } else {
             console.log('wrong')
         }
-        quiz.shift()
-        setQuiz([...quiz])
-        if(quiz.length){
-            const {correctAnswerId, incorrectAnswerIds} = quiz[0]
-            const combinedResultIds = [correctAnswerId,...incorrectAnswerIds]
-            combinedResultIds.sort()
-            setCombinedCountryIds([...combinedResultIds])
+
+        if(quizIndex < quiz.length -1){
+            const nextIndex = quizIndex + 1
+            setQuizIndex(nextIndex)
+            loadQuizAtIndex(quiz,nextIndex )
+        } else {
+            setIsEnded(true)
         }
+
     }
 
-    return quiz && <div className='grid-container'>
-            <FlagImage country={data.countries.find((country: Country) => Number(country.id) === quiz[0].correctAnswerId)} />
+    return quiz && !isEnded && <div className='grid-container'>
+            <FlagImage country={data.countries.find((country: Country) => Number(country.id) === quiz[quizIndex].correctAnswerId)} />
             <div className='grid-item grid-item-2'>{
                 combinedCountryIds.map((countryId: number) => { 
                     const {name} = data.countries.find((country: Country) => Number(country.id) === countryId)

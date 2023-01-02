@@ -3,28 +3,28 @@ import {useState} from 'react';
 import {
     useQuery,
 } from '@tanstack/react-query'
-import {listCountries} from '../../services/api'
-import {generateAnswerIds, generateIncorrectAnswerIdsForId} from '../../utils/quizHelpers'
+import {listCountries} from '../../services/countries'
+import {generateCorrectAnswerIds, generateIncorrectAnswerIdsForId} from '../../utils/quizHelpers'
 import FlagQuiz from './FlagQuiz';
-import {FlagQuestions} from '../../types/types'
+import {Country, FlagQuestions} from '../../types/types'
 
 function FlagPage() {
+    const quizLength = 3;
+    const numberOfIncorrectChoices = 6
     const [quiz, setQuiz] = useState([])
-    const [result, setResult] = useState(0)
 
     const {isError, isSuccess, data, isLoading} = useQuery(
         ['countries'],
         listCountries
-      )
+    )
 
     const onQuizClick = () => {
+        const countries: Country[] = data.countries
         const quiz: FlagQuestions[] = []
-        const quizLength = 10;
-        const numberOfIncorrectChoices = 6
-        const answerIds = generateAnswerIds(quizLength)
-        
-        for(const correctAnswerId of answerIds){
-            const incorrectAnswerIds = generateIncorrectAnswerIdsForId(correctAnswerId, numberOfIncorrectChoices)
+
+        while(quiz.length < quizLength){
+            const correctAnswerId = generateCorrectAnswerIds(countries)
+            const incorrectAnswerIds = generateIncorrectAnswerIdsForId(correctAnswerId, countries, numberOfIncorrectChoices)
             quiz.push({
                 correctAnswerId,
                 incorrectAnswerIds
@@ -37,8 +37,7 @@ function FlagPage() {
                 <div>
                     {!isLoading && <button onClick={onQuizClick}>New Flag Quiz</button>}
                 </div>
-                {quiz.length && <FlagQuiz quiz={quiz} setQuiz={setQuiz} result={result} setResult={setResult}/>}
-                {result}
+                {quiz.length && <FlagQuiz quiz={quiz}/>}
             </div>
 }
 
