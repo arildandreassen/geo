@@ -3,11 +3,10 @@ import {useState} from 'react';
 import {
     useQuery,
 } from '@tanstack/react-query'
-import {listCountries} from './utils/api'
-import "./App.css";
-import {generateAnswerIds, generateIncorrectAnswerIdsForId} from './utils/quizHelpers'
+import {listCountries} from '../../services/api'
+import {generateAnswerIds, generateIncorrectAnswerIdsForId} from '../../utils/quizHelpers'
 import FlagQuiz from './FlagQuiz';
-import {FlagQuestions} from './types/types'
+import {FlagQuestions} from '../../types/types'
 
 function FlagPage() {
     const [quiz, setQuiz] = useState([])
@@ -18,7 +17,7 @@ function FlagPage() {
         listCountries
       )
 
-    const onPracticeClick = () => {
+    const onQuizClick = () => {
         const quiz: FlagQuestions[] = []
         const quizLength = 10;
         const numberOfIncorrectChoices = 6
@@ -36,7 +35,7 @@ function FlagPage() {
 
     return  <div>
                 <div>
-                    {!isLoading && <button onClick={onPracticeClick}>Practice Round</button>}
+                    {!isLoading && <button onClick={onQuizClick}>New Flag Quiz</button>}
                 </div>
                 {quiz.length && <FlagQuiz quiz={quiz} setQuiz={setQuiz} result={result} setResult={setResult}/>}
                 {result}

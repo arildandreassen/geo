@@ -2,12 +2,12 @@ import * as React from 'react';
 import {
     useQuery,
   } from '@tanstack/react-query'
-import {listCountries} from './utils/api'
+import {listCountries} from '../../services/api'
 import { useEffect, useState, useContext } from 'react';
-import {FlagQuestions} from './types/types'
+import {FlagQuestions} from '../../types/types'
 import FlagImage from './FlagImage';
 import './FlagQuiz.css'
-import {numericalSort} from './utils/sorts'
+import {numericalSort} from '../../utils/sorts'
 
 interface FlagProps{
     quiz:FlagQuestions[],
