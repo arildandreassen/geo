@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  useQuery,
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query'
@@ -11,9 +10,6 @@ import Header from './components/Header';
 import { Routes, Route } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import HighScores from './features/highScores/HighScores';
-
-
-
 
 function App() {
   const queryClient = new QueryClient()

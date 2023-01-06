@@ -20,13 +20,7 @@ const generateIncorrectAnswerIdsForId = (correctAnswerId: number, listOfCountrie
     return incorrectAnswerIds
 }
 
-const getCountryCodeById = (id: number) => {
-
-}
-
-
 export {
     generateCorrectAnswerIds,
     generateIncorrectAnswerIdsForId,
-    getCountryCodeById
 }
