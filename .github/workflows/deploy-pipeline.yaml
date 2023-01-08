@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Deploy to AWS Pipeline
 
 concurrency: deploy
 
@@ -12,4 +12,5 @@ jobs:
     uses: ./.github/workflows/deploy-to-aws.yaml
     secrets: inherit
     with:
+      stack-suffix: dev
       targetEnv: 'dev'
