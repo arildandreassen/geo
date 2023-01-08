@@ -1,21 +1,24 @@
 import * as React from 'react'
-import {
-    useQuery,
-} from '@tanstack/react-query'
+import {useState, useEffect} from 'react';
 import {listHighscores} from '../../services/highscores'
+import './HighScores.css'
 
 function HighScores() {
-    const {data, isLoading, isSuccess} = useQuery(
-        ['highscores'],
-        listHighscores
-    )
+    const [highscores, setHighScores] = useState([])
+    useEffect(() => {
+        listHighscores().then(response => {
+            setHighScores(response.highScores)
+            console.log(response)
+        })
+    },[])
 
-    return <div >
-        high scores
-        {/* {data && data.highscores && data.highscores.map((highscore: any) => {
-            return <div>name her</div>
-        })} */}
-        {isSuccess}
+    return <div>
+        {highscores.length > 0 && highscores.map(({name, score}) => {
+            return <div className='grid-container-highscore'>
+                <div className='grid-item-2 score-item'>{name}</div>
+                <div className='grid-item-3 score-item'>{score}</div>
+            </div>
+        })}
     </div>
 }
 

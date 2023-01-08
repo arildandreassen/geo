@@ -1,31 +1,31 @@
 import * as React from 'react'
-import {useState} from 'react';
-import {
-    useQuery,
-} from '@tanstack/react-query'
+import {useState, useEffect, useRef} from 'react';
 import {listCountries} from '../../services/countries'
 import {generateCorrectAnswerIds, generateIncorrectAnswerIdsForId} from '../../utils/quizHelpers'
 import FlagQuizItem from './FlagQuizItem';
-import {Country, FlagQuestions} from '../../types/types'
+import {FlagQuestions} from '../../types/types'
 import {addHighscore} from '../../services/highscores'
 
 function FlagPage() {
-    const quizLength = 2;
+    const quizLength = 10;
     const numberOfIncorrectChoices = 6
     const penaltyForWrongAnswer = 50000
 
+    const totalQuizTime = useRef(0)
+    let flagTimer = new Date().getTime()
 
     const [quiz, setQuiz] = useState([])
     const [quizIndex, setQuizIndex] = useState(0)
-    const [thinkingTimer, setThinkingTimer] = useState(null)
-    const [timer, setTimer] = useState(null)
-    const {data, isLoading} = useQuery(
-        ['countries'],
-        listCountries
-    )
+    const [countries, setCountries] = useState([])
+
+    useEffect(() => {
+        listCountries().then(response => {
+            setCountries(response.countries)
+        })
+        totalQuizTime.current = 0
+    }, [])
 
     const createNewQuiz = () => {
-        const countries: Country[] = data.countries
         const quiz: FlagQuestions[] = []
 
         while(quiz.length < quizLength){
@@ -36,32 +36,29 @@ function FlagPage() {
                 incorrectAnswerIds
             })
         }
-        setTimer(null)
         setQuiz(quiz)
-        const now = new Date().getTime()
-        setThinkingTimer(now)
+        totalQuizTime.current = 0
+        flagTimer = new Date().getTime()
+
     }
 
     const handleEndOfQuiz = () => {
+        addHighscore('Arild', totalQuizTime.current)
         setQuiz([])
         setQuizIndex(0)
-        addHighscore('Arild', timer)
 
     }
 
-    const handleCountryClick = (event: any) => {
+    const handleCountryClick = async (event: any) => {
         const guessedId = event.target.getAttribute('data-country-id')
+
         const now = new Date().getTime()
         if(quiz[quizIndex].correctAnswerId === Number(guessedId)){
-            const duration = now - thinkingTimer
-            setTimer((timer: any) => {
-                return timer + duration
-            })
-            setThinkingTimer(now)
+            const duration = now - flagTimer
+            totalQuizTime.current += duration
+            flagTimer = new Date().getTime()
         } else {
-            setTimer((timer: any) => {
-                return timer + penaltyForWrongAnswer
-            })
+            totalQuizTime.current += penaltyForWrongAnswer
         }
         if(quizIndex < quiz.length -1){
             const nextIndex = quizIndex + 1
@@ -71,12 +68,15 @@ function FlagPage() {
         }
     }
 
-    return  <div>
-                <div>
-                    {!isLoading && !quiz.length && <button onClick={createNewQuiz}>New Flag Quiz</button>}
-                </div>
-                {quiz.length > 0 && <FlagQuizItem quizItem={quiz[quizIndex]} handleCountryClick={handleCountryClick}/>}
+    return  (
+        <div>
+            <div>
+                {countries.length > 0 && !quiz.length && <button onClick={createNewQuiz}>New Flag Quiz</button>}
             </div>
+            {quiz.length > 0 && <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>}
+            {totalQuizTime.current}
+        </div>
+    )
 }
 
 export default FlagPage

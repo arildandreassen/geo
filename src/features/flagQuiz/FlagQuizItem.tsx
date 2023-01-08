@@ -1,8 +1,4 @@
 import * as React from 'react';
-import {
-    useQuery,
-} from '@tanstack/react-query'
-import {listCountries} from '../../services/countries'
 import { useEffect, useState} from 'react';
 import {Country} from '../../types/types'
 import FlagImage from './FlagImage';
@@ -11,6 +7,7 @@ import './FlagQuizItem.css'
 import {numericalSort} from '../../utils/sorts'
 
 interface QuizProps{
+    countries: Country[],
     quizItem: {
         correctAnswerId: number,
         incorrectAnswerIds: number[]
@@ -18,12 +15,9 @@ interface QuizProps{
     handleCountryClick: any
 }
 
-function FlagQuizItem({quizItem:{correctAnswerId, incorrectAnswerIds}, handleCountryClick}: QuizProps){
+function FlagQuizItem({quizItem:{correctAnswerId, incorrectAnswerIds}, countries, handleCountryClick}: QuizProps){
     const [combinedCountryIds, setCombinedCountryIds] = useState([])
-    const {data} = useQuery(
-        ['countries'],
-        listCountries
-    )
+
 
     useEffect(() => {
         const combinedResultIds = [correctAnswerId,...incorrectAnswerIds]
@@ -32,8 +26,8 @@ function FlagQuizItem({quizItem:{correctAnswerId, incorrectAnswerIds}, handleCou
     }, [correctAnswerId, incorrectAnswerIds])
 
     return correctAnswerId && <div className='grid-container'>
-            <FlagImage country={data.countries.find((country: Country) => Number(country.id) === correctAnswerId)} />
-            <CountrySelection countryIds={combinedCountryIds} handleCountryClick={handleCountryClick} />
+            <FlagImage country={countries.find((country: Country) => Number(country.id) === correctAnswerId)} />
+            <CountrySelection countries={countries} countryIds={combinedCountryIds} handleCountryClick={handleCountryClick} />
         </div>
 }
 
