@@ -7,7 +7,7 @@ function HighScores() {
     const [highscores, setHighScores] = useState([])
     useEffect(() => {
         listHighscores().then(response => {
-            setHighScores(response.highScores)
+            setHighScores(response.highscores)
             console.log(response)
         })
     },[])
