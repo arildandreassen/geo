@@ -5,11 +5,12 @@ import {generateCorrectAnswerIds, generateIncorrectAnswerIdsForId} from '../../u
 import FlagQuizItem from './FlagQuizItem';
 import {FlagQuestions} from '../../types/types'
 import {addHighscore} from '../../services/highscores'
+import Timer from '../../components/Timer';
 
 function FlagPage() {
     const quizLength = 10;
     const numberOfIncorrectChoices = 6
-    const penaltyForWrongAnswer = 50000
+    const penaltyForWrongAnswer = 50000 //milliseconds
 
     const totalQuizTime = useRef(0)
     let flagTimer = new Date().getTime()
@@ -43,7 +44,9 @@ function FlagPage() {
     }
 
     const handleEndOfQuiz = () => {
-        addHighscore('Arild', totalQuizTime.current)
+        const profileString = window.localStorage.getItem('profile')
+        const profile = JSON.parse(profileString)
+        addHighscore(profile.name, totalQuizTime.current)
         setQuiz([])
         setQuizIndex(0)
 
@@ -72,6 +75,9 @@ function FlagPage() {
         <div>
             <div>
                 {countries.length > 0 && !quiz.length && <button onClick={createNewQuiz}>New Flag Quiz</button>}
+            </div>
+            <div>
+            {quiz.length > 0 && <Timer />}
             </div>
             {quiz.length > 0 && <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>}
             {totalQuizTime.current}

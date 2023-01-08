@@ -8,7 +8,6 @@ function HighScores() {
     useEffect(() => {
         listHighscores().then(response => {
             setHighScores(response.highscores)
-            console.log(response)
         })
     },[])
 

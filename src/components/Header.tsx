@@ -8,7 +8,7 @@ function Header() {
         <div className='header-items'><Link to='/'>Home</Link></div>
         <div className='header-items'><Link to='/highscores'>High Scores</Link></div>
         <div className='header-items'><Link to='/flags'>Flags</Link></div>
-        <div className='header-items'>Borders</div>
+        <div className='header-items'><Link to='/profile'>Profile</Link></div>
     </div>
 }
 

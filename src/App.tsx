@@ -1,28 +1,23 @@
 import * as React from 'react';
-import {
-  QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query'
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
 import FlagPage from './features/flagQuiz/FlagPage'
 import Header from './components/Header';
 
-import { Routes, Route } from "react-router-dom";
+
 import HomePage from './pages/HomePage';
 import HighScores from './features/highScores/HighScores';
-
+import Profile from './features/profile/Profile'
 function App() {
-  const queryClient = new QueryClient()
 
   return <div className="App">
     <Header />
-    <QueryClientProvider client={queryClient}>
       <Routes>
           <Route path="/" element={<HomePage />}/>
           <Route path="/highscores" element={<HighScores />}/>
           <Route path='/flags' element={<FlagPage />} />
+          <Route path='/profile' element={<Profile />} />
       </Routes>
-    </QueryClientProvider>
   </div>;
 }
 
