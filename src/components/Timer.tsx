@@ -2,17 +2,20 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import './Timer.css'
 
-function Timer() {
-    const [seconds, setSeconds] = useState(0)
+function Timer({stopwatch}: any) {
+    const [time, setTime] = useState('0')
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setSeconds(seconds => seconds +1)
-        }, 1000)
-        return () => clearInterval(interval)
-    }, [seconds])
 
-    return <div className='timer'>{seconds}s</div>
+        const timer = setTimeout(() => {
+            setTime((stopwatch.getElapsedRunningTime() / 1000).toFixed(2))
+        }, 100);
+        return () => clearTimeout(timer);
+    })
+
+    return <div>
+        <div className='timer'>{time}s</div>
+    </div>
 }
 
 export default Timer

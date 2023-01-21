@@ -3770,6 +3770,16 @@ duplexer@^0.1.2:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
 
+easytimer-react-hook@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/easytimer-react-hook/-/easytimer-react-hook-2.0.2.tgz#7eaa4053f796fef07fca80a532e0aa72e56e3e38"
+  integrity sha512-RHQyVETKlk7kyvl+bOR/G5qxaT0HknZ+l+exZHhZFg8+ZLLn2RNJwNP9UV2ozogrHUPdbonapWLbyj0VMOTo6w==
+
+easytimer.js@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/easytimer.js/-/easytimer.js-4.5.4.tgz#7e8ac85cafa8b5e5a38dcffa2e4b0254c75c71fe"
+  integrity sha512-65STy2sW2z6e9XwfJqSa18JVNWuOu2cb/FXaZ/BbiDiPnTvC53njMS3oY1BsAIm/Dzt9c8YUvcgc8FoPttm1Gw==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -7508,6 +7518,18 @@ react-scripts@5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-sub-unsub@^2.1.6:
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/react-sub-unsub/-/react-sub-unsub-2.1.11.tgz#173d0803e1d7b29611cb29d95f47ed7798e93642"
+  integrity sha512-FNKy0uD5wSieRE+l5RXaS0bUu6cR8XAXLDwOJnvSDGBMHcWVb1dod8ZkXYjPKtKR74tjYCEpMWcEAWCOoWNXxQ==
+
+react-use-precision-timer@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-use-precision-timer/-/react-use-precision-timer-3.2.1.tgz#2cc84a434693d8f89305d5e2e88fe7efd20ba251"
+  integrity sha512-VTfUgvk0+4EmC6FMmWXw2zjbGkiCdcKIuesDVEvHltdMhmkqHx/fThawrxExFdT1m08c7pkhX0lhd5DSaUskbw==
+  dependencies:
+    react-sub-unsub "^2.1.6"
 
 react@^18.2.0:
   version "18.2.0"
