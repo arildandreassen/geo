@@ -1,53 +1,50 @@
 import * as React from 'react'
 import {useState, useEffect, useRef} from 'react';
+import { useStopwatch  } from "react-use-precision-timer";
 import {listCountries} from '../../services/countries'
 import {generateCorrectAnswerIds, generateIncorrectAnswerIdsForId} from '../../utils/quizHelpers'
 import FlagQuizItem from './FlagQuizItem';
 import {FlagQuestions} from '../../types/types'
 import {addHighscore} from '../../services/highscores'
 import Timer from '../../components/Timer';
+import QuizResult from './QuizResult'
 
-type quizResult = {
+type answer = {
     name: string
     status: string
+    duration:  number
 }
 
 function FlagPage() {
-    const quizLength = 10;
+    const numberOfCountriesInQuiz = 10;
     const numberOfIncorrectChoices = 6
-    const penaltyForWrongAnswer = 50000 //milliseconds
-
-    const totalQuizTime = useRef(0)
-    let flagTimer = new Date().getTime()
-    let defaultQuizResult: quizResult[] = []
-    while(defaultQuizResult.length < quizLength){
-        defaultQuizResult.push({
-            name:'unknown',
-            status:'unknown'})
-    }
-    const quizResult = useRef(defaultQuizResult)
-
+    const stopwatch = useStopwatch();
     const [quiz, setQuiz] = useState([])
     const [quizIndex, setQuizIndex] = useState(0)
     const [countries, setCountries] = useState([])
-    const [quizStarted, setQuizStarted] = useState(false)
+    const [isQuizActive, setIsQuizActive] = useState(false)
+    const [quizResult, setQuizResult] = useState([])
+    const [canSave, setCanSave] = useState(false)
+
 
     useEffect(() => {
         listCountries().then(response => {
             setCountries(response.countries)
         })
-        totalQuizTime.current = 0
-    }, [])
+    }, [quizResult])
 
     const getCountryName = (countryId: number) => {
         const country = countries.find(country => country.id === countryId)
         return country.name
     }
 
-    const createNewQuiz = () => {
+    const handleStartNewQuiz = () => {
+        stopwatch.start()
+        setQuizIndex(0)
+        setQuizResult([])
         const quiz: FlagQuestions[] = []
 
-        while(quiz.length < quizLength){
+        while(quiz.length < numberOfCountriesInQuiz){
             const correctAnswerId = generateCorrectAnswerIds(countries)
             const incorrectAnswerIds = generateIncorrectAnswerIdsForId(correctAnswerId, countries, numberOfIncorrectChoices)
             quiz.push({
@@ -56,57 +53,45 @@ function FlagPage() {
             })
         }
         setQuiz(quiz)
-        setQuizStarted(true)
-        quizResult.current = defaultQuizResult
-        totalQuizTime.current = 0
-        flagTimer = new Date().getTime()
+        setIsQuizActive(true)
     }
 
     const isSelectionCorrect = (guessedId: any) => {
         return quiz[quizIndex].correctAnswerId === Number(guessedId)
     }
 
-    const handleCorrectAnswer = (countryId:number) => {
-        const now = new Date().getTime()
-        const duration = now - flagTimer
-        totalQuizTime.current += duration
-        flagTimer = new Date().getTime()
-        quizResult.current[quizIndex] = {
-            name: getCountryName(countryId),
-            status: 'correct'
-        }
-        
-    }
-
-    const handleIncorrectAnswer = (countryId:number) => {
-        console.log(countries)
-        totalQuizTime.current += penaltyForWrongAnswer
-        quizResult.current[quizIndex] = {
-            name: getCountryName(countryId),
-            status: 'incorrect'
-        }
-    }
-
     const isQuizFinished = () => {
         return quizIndex === quiz.length -1
     }
 
+    const calculateQuizTime = (results: answer [] ) => {
+        return results[results.length-1].duration
+    }
+
     const handleEndOfQuiz = () => {
+        stopwatch.pause()
+        setIsQuizActive(false)
+        const hasIncorrect = quizResult.some(result => result.status === 'incorrect')
+        setCanSave(!hasIncorrect)
+    }
+
+    const saveHighScore = () => {
         const profileString = window.localStorage.getItem('profile')
         const profile = JSON.parse(profileString)
-        addHighscore(profile.name, totalQuizTime.current)
-        setQuiz([])
-        setQuizIndex(0)
+        const time = calculateQuizTime(quizResult)
+        addHighscore(profile.name, time)
     }
 
     const handleCountryClick = async (event: any) => {
         const guessedId = event.target.getAttribute('data-country-id')
-
-        if(isSelectionCorrect(guessedId)){
-            handleCorrectAnswer(guessedId)
-        } else {
-            handleIncorrectAnswer(guessedId)
+        const status = isSelectionCorrect(guessedId) ? 'correct' : 'incorrect';
+        const body: answer = {
+            name: getCountryName(guessedId),
+            status,
+            duration: stopwatch.getElapsedRunningTime(),
         }
+        setQuizResult((preResult: answer []) => ([...preResult, body]))
+
 
         if(isQuizFinished()){
             handleEndOfQuiz()
@@ -121,22 +106,14 @@ function FlagPage() {
             <div>FLAG QUIZ</div>
             <div>
                 {!countries.length && <div>Please wait. Creating Quiz...</div>}
-                {countries.length > 0 && !quiz.length && <button onClick={createNewQuiz}>Start Quiz</button>}
+                {countries.length > 0 && !isQuizActive && <button onClick={handleStartNewQuiz}>Start Quiz</button>}
             </div>
-            <div>
-                {quiz.length > 0 && <Timer />}
-            </div>
-            <div>
-                {quiz.length > 0 && <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>}
-            </div>
-            <div>
-                {quizStarted &&
-                <div className='grid-bar'>{quizResult.current.map((res: quizResult, index:any) => {
-                    const status = res.status || 'unknown'
-                    return <div className={`grid-item-${index+1} ${status}`}>{res.name}</div>
-                })}
-                </div>}
-            </div>
+            {quiz.length > 0 ? <Timer stopwatch={stopwatch}/> : null}
+                {isQuizActive ? <>
+                    <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>
+                    </>: null}
+            <QuizResult quizResult={quizResult}/>
+            {canSave ? <button onClick={saveHighScore}>Save Highscore</button>: null}
         </div>
     )
 }
