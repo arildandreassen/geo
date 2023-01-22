@@ -12,12 +12,12 @@ function HighScores() {
     },[])
 
     return <div>
-        {highscores.length > 0 && highscores.map(({name, score}) => {
+        {highscores.length > 0 ? highscores.map(({name, score}) => {
             return <div className='grid-container-highscore'>
                 <div className='grid-item-2 score-item'>{name}</div>
                 <div className='grid-item-3 score-item'>{score}</div>
             </div>
-        })}
+        }): <div>Loading...</div>}
     </div>
 }
 

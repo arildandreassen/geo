@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 function QuizResult({quizResult}:any) {
+    
    return quizResult.map((result:any) => {
         const {name, status,duration} = result
         return <div className='grid-container'>

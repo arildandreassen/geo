@@ -16,14 +16,15 @@ type answer = {
 }
 
 function FlagPage() {
-    const numberOfCountriesInQuiz = 3;
-    const numberOfIncorrectChoices = 2
+    const numberOfCountriesInQuiz = 10;
+    const numberOfIncorrectChoices = 6
     const stopwatch = useStopwatch();
     const [quiz, setQuiz] = useState([])
     const [quizIndex, setQuizIndex] = useState(0)
     const [countries, setCountries] = useState([])
     const [isQuizActive, setIsQuizActive] = useState(false)
     const [quizResult, setQuizResult] = useState([])
+    const [canSave, setCanSave] = useState(false)
 
 
     useEffect(() => {
@@ -39,7 +40,6 @@ function FlagPage() {
 
     const handleStartNewQuiz = () => {
         stopwatch.start()
-        setQuiz([])
         setQuizIndex(0)
         setQuizResult([])
         const quiz: FlagQuestions[] = []
@@ -64,19 +64,22 @@ function FlagPage() {
         return quizIndex === quiz.length -1
     }
 
-    const calculateQuizTime = (result: answer [] ) => {
-        return 5
+    const calculateQuizTime = (results: answer [] ) => {
+        return results[results.length-1].duration
     }
 
     const handleEndOfQuiz = () => {
         stopwatch.pause()
         setIsQuizActive(false)
+        const hasIncorrect = quizResult.some(result => result.status === 'incorrect')
+        setCanSave(!hasIncorrect)
     }
 
     const saveHighScore = () => {
         const profileString = window.localStorage.getItem('profile')
         const profile = JSON.parse(profileString)
         const time = calculateQuizTime(quizResult)
+        addHighscore(profile.name, time)
     }
 
     const handleCountryClick = async (event: any) => {
@@ -105,11 +108,12 @@ function FlagPage() {
                 {!countries.length && <div>Please wait. Creating Quiz...</div>}
                 {countries.length > 0 && !isQuizActive && <button onClick={handleStartNewQuiz}>Start Quiz</button>}
             </div>
-                <Timer stopwatch={stopwatch}/>
-            <div>
-                {isQuizActive ? <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>: null}
-            </div>
+            {quiz.length > 0 ? <Timer stopwatch={stopwatch}/> : null}
+                {isQuizActive ? <>
+                    <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>
+                    </>: null}
             <QuizResult quizResult={quizResult}/>
+            {canSave ? <button onClick={saveHighScore}>Save Highscore</button>: null}
         </div>
     )
 }
