@@ -1,19 +1,13 @@
 import * as React from 'react'
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import { useStopwatch  } from "react-use-precision-timer";
-import {listCountries} from '../../services/countries'
+import countries from '../../assets/countries/countries.json'
 import {generateCorrectAnswerIds, generateIncorrectAnswerIdsForId} from '../../utils/quizHelpers'
 import FlagQuizItem from './FlagQuizItem';
-import {FlagQuestions} from '../../types/types'
+import {FlagQuestions, Answer} from '../../types/types'
 import {addHighscore} from '../../services/highscores'
 import Timer from '../../components/Timer';
 import QuizResult from './QuizResult'
-
-type answer = {
-    name: string
-    status: string
-    duration:  number
-}
 
 function FlagPage() {
     const numberOfCountriesInQuiz = 10;
@@ -21,19 +15,16 @@ function FlagPage() {
     const stopwatch = useStopwatch();
     const [quiz, setQuiz] = useState([])
     const [quizIndex, setQuizIndex] = useState(0)
-    const [countries, setCountries] = useState([])
     const [isQuizActive, setIsQuizActive] = useState(false)
     const [quizResult, setQuizResult] = useState([])
     const [canSave, setCanSave] = useState(false)
 
-
     useEffect(() => {
-        listCountries().then(response => {
-            setCountries(response.countries)
-        })
-    }, [quizResult])
 
-    const getCountryName = (countryId: number) => {
+    }, [quizResult])
+    
+
+    const getCountryName = (countryId: string) => {
         const country = countries.find(country => country.id === countryId)
         return country.name
     }
@@ -45,7 +36,7 @@ function FlagPage() {
         const quiz: FlagQuestions[] = []
 
         while(quiz.length < numberOfCountriesInQuiz){
-            const correctAnswerId = generateCorrectAnswerIds(countries)
+            const correctAnswerId = generateCorrectAnswerIds(countries, quiz)
             const incorrectAnswerIds = generateIncorrectAnswerIdsForId(correctAnswerId, countries, numberOfIncorrectChoices)
             quiz.push({
                 correctAnswerId,
@@ -57,14 +48,14 @@ function FlagPage() {
     }
 
     const isSelectionCorrect = (guessedId: any) => {
-        return quiz[quizIndex].correctAnswerId === Number(guessedId)
+        return quiz[quizIndex].correctAnswerId === guessedId
     }
 
     const isQuizFinished = () => {
         return quizIndex === quiz.length -1
     }
 
-    const calculateQuizTime = (results: answer [] ) => {
+    const calculateQuizTime = (results: Answer [] ) => {
         return results[results.length-1].duration
     }
 
@@ -85,12 +76,12 @@ function FlagPage() {
     const handleCountryClick = async (event: any) => {
         const guessedId = event.target.getAttribute('data-country-id')
         const status = isSelectionCorrect(guessedId) ? 'correct' : 'incorrect';
-        const body: answer = {
+        const body: Answer = {
             name: getCountryName(guessedId),
             status,
             duration: stopwatch.getElapsedRunningTime(),
         }
-        setQuizResult((preResult: answer []) => ([...preResult, body]))
+        setQuizResult((preResult: Answer []) => ([...preResult, body]))
 
 
         if(isQuizFinished()){
@@ -109,9 +100,9 @@ function FlagPage() {
                 {countries.length > 0 && !isQuizActive && <button onClick={handleStartNewQuiz}>Start Quiz</button>}
             </div>
             {quiz.length > 0 ? <Timer stopwatch={stopwatch}/> : null}
-                {isQuizActive ? <>
-                    <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>
-                    </>: null}
+            {isQuizActive ? <>
+                <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>
+                </>: null}
             <QuizResult quizResult={quizResult}/>
             {canSave ? <button onClick={saveHighScore}>Save Highscore</button>: null}
         </div>
