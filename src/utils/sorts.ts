@@ -1,5 +1,6 @@
-const numericalSort = (a:number,b:number): number => {
-    return b - a
+const numericalSort = (a:string,b:string): number => {
+    const collator = new Intl.Collator([], {numeric: true});
+    return collator.compare(a, b)
 }
 
 export {
