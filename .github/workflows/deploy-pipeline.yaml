@@ -3,7 +3,7 @@ name: Deploy to AWS Pipeline
 concurrency: deploy
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
