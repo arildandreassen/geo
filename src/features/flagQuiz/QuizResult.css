@@ -1,0 +1,30 @@
+.highscores {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.highscore-container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+}
+
+.correct {
+    background-color: lightgreen;
+    border-radius: 25px;
+}
+
+.incorrect {
+    background-color: lightcoral;
+    border-radius: 25px;
+}
+
+.unknown {
+    background-color: grey;
+}
+
+.grid-item-2 {
+    margin-right: 5px;
+}

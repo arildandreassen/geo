@@ -1,4 +1,5 @@
 export type Answer = {
+    country_code: string
     name: string
     status: string
     duration:  number
