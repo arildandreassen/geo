@@ -1,4 +1,11 @@
-.grid-container-highscore {
+
+.highscores .title {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: larger;
+}
+
+.highscore-container {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 2fr;
     column-gap: 30px

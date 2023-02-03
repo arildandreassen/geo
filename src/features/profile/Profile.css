@@ -1,0 +1,8 @@
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-item-2 label{
+    text-align: right;
+}
