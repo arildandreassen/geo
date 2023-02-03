@@ -17,7 +17,9 @@ function Profile() {
 
     useEffect(() => {
         const current = getProfile()
-        setProfile(JSON.parse(current))
+        if(current){
+            setProfile(JSON.parse(current))
+        }
     },[])
 
     const handleFormChange = (event:any) => {
