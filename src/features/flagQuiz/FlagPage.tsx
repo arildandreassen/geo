@@ -18,6 +18,7 @@ function FlagPage() {
     const [isQuizActive, setIsQuizActive] = useState(false)
     const [quizResult, setQuizResult] = useState([])
     const [canSave, setCanSave] = useState(false)
+    const [showBetterLuckNextTime, setShowBetterLuckNextTime] = useState(false)
 
     useEffect(() => {
 
@@ -45,6 +46,7 @@ function FlagPage() {
         }
         setQuiz(quiz)
         setIsQuizActive(true)
+        setShowBetterLuckNextTime(false)
     }
 
     const isSelectionCorrect = (guessedId: any) => {
@@ -64,6 +66,7 @@ function FlagPage() {
         setIsQuizActive(false)
         const hasIncorrect = quizResult.some(result => result.status === 'incorrect')
         setCanSave(!hasIncorrect)
+        setShowBetterLuckNextTime(hasIncorrect)
     }
 
     const saveHighScore = () => {
@@ -106,7 +109,10 @@ function FlagPage() {
                 <FlagQuizItem quizItem={quiz[quizIndex]} countries={countries} handleCountryClick={handleCountryClick}/>
                 </>: null}
             <QuizResult quizResult={quizResult}/>
-            {canSave ? <div className='standard-button' onClick={saveHighScore}>Save Highscore</div>: null}
+            {canSave ? 
+            <div className='standard-button' onClick={saveHighScore}>Save Highscore</div>
+            : null}
+            {showBetterLuckNextTime ? <div>Better Luck next time</div>:null}
         </div>
     )
 }

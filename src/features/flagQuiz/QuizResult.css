@@ -1,9 +1,9 @@
-.highscores {
+.quizresult {
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
-.highscore-container {
+.quizresult-container {
     display: grid;
     align-items: center;
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr;

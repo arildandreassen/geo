@@ -35,7 +35,12 @@ const getCountryCode = (countryId:string): string => {
     return country.country_code
 }
 
+const formatDuration = (duration: number): string => {
+    return (duration / 1000).toFixed(2)
+}
+
 export {
+    formatDuration,
     generateCorrectAnswerIds,
     generateIncorrectAnswerIdsForId,
     getCountryCode
