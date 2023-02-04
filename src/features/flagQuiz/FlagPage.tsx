@@ -73,7 +73,7 @@ function FlagPage() {
         const profileString = window.localStorage.getItem('profile')
         const profile = JSON.parse(profileString)
         const time = calculateQuizTime(quizResult)
-        const name = profile.firstName + profile.lastName
+        const name = `${profile.firstname} ${profile.lastname}`
         addHighscore(name, time)
         setCanSave(false)
     }
