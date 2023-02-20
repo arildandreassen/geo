@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import FlagPage from "./features/flagBrawl/FlagBrawl";
+import FlagBrawl from "./features/flagBrawl/FlagBrawl";
 import FlagsPage from "./pages/FlagsPage";
 import Header from "./components/Header";
 
@@ -11,20 +11,18 @@ import Profile from "./features/profile/Profile";
 import Footer from "./components/Footer";
 function App() {
   return (
-    <div id="wrapper">
-      <div className="App">
-        <Header />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/highscores" element={<HighScores />} />
-            <Route path="/flags" element={<FlagsPage />} />
-            <Route path="/flags/brawl" element={<FlagPage />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </div>
-        <Footer />
-      </div>
+    <div className="App">
+      <Header />
+      <section className="content">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/highscores" element={<HighScores />} />
+          <Route path="/flags" element={<FlagsPage />} />
+          <Route path="/flags/brawl" element={<FlagBrawl />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </section>
+      <Footer />
     </div>
   );
 }

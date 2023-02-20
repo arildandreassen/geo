@@ -1,7 +1,7 @@
 .wrapper {
   display: grid;
   height: 75%;
-  margin-top: 15%;
+  margin-top: 10%;
 }
 
 .homepage {
@@ -16,4 +16,9 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   place-items: center;
+}
+
+.icon {
+  width: 85%;
+  height: 85%;
 }

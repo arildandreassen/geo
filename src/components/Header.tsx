@@ -10,7 +10,7 @@ function Header() {
   };
 
   return (
-    <div className="header-container">
+    <header className="header-container">
       <div className="header-items logo grid-item-2" onClick={handleLogoClick}>
         <span>GEOBRAWL.COM</span>
       </div>
@@ -34,7 +34,7 @@ function Header() {
           Profile
         </Link>
       </div>
-    </div>
+    </header>
   );
 }
 

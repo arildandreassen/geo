@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useStopwatch } from "react-use-precision-timer";
 import countries from "../../assets/countries/countries.json";
 import {
@@ -12,8 +12,9 @@ import { FlagQuestions, Answer } from "../../types/types";
 import { addHighscore } from "../../services/highscores";
 import Timer from "../../components/Timer";
 import QuizResult from "./QuizResult";
+import "./FlagBrawl.css";
 
-function FlagPage() {
+function FlagBrawl() {
   const numberOfCountriesInQuiz = 10;
   const numberOfIncorrectChoices = 7;
   const stopwatch = useStopwatch();
@@ -103,26 +104,21 @@ function FlagPage() {
   };
 
   return (
-    <div>
-      <div>
-        {!countries.length && <div>Please wait. Creating Quiz...</div>}
-        {countries.length > 0 && !isQuizActive && (
-          <div onClick={handleStartNewQuiz} className="icon">
-            Start Quiz
-          </div>
-        )}
-      </div>
+    <div className="flagbrawl">
+      {countries.length > 0 && !isQuizActive && (
+        <div onClick={handleStartNewQuiz} className="icon">
+          Start
+        </div>
+      )}
       {quiz.length > 0 ? <Timer stopwatch={stopwatch} /> : null}
       {isQuizActive ? (
-        <>
-          <FlagQuizItem
-            quizItem={quiz[quizIndex]}
-            countries={countries}
-            handleCountryClick={handleCountryClick}
-          />
-        </>
+        <FlagQuizItem
+          quizItem={quiz[quizIndex]}
+          countries={countries}
+          handleCountryClick={handleCountryClick}
+        />
       ) : null}
-      <QuizResult quizResult={quizResult} />
+      {isQuizActive ? <QuizResult quizResult={quizResult} /> : null}
       {canSave ? (
         <div className="standard-button" onClick={saveHighScore}>
           Save Highscore
@@ -133,4 +129,4 @@ function FlagPage() {
   );
 }
 
-export default FlagPage;
+export default FlagBrawl;

@@ -6,6 +6,7 @@
   grid-template-rows: [line] 30px;
   border: 1px solid black;
   justify-content: space-evenly;
+  height: 29px;
 }
 
 .logo {
