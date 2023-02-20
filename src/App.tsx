@@ -1,7 +1,8 @@
 import * as React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import FlagPage from "./features/flagQuiz/FlagPage";
+import FlagPage from "./features/flagBrawl/FlagBrawl";
+import FlagsPage from "./pages/FlagsPage";
 import Header from "./components/Header";
 
 import HomePage from "./pages/HomePage";
@@ -13,12 +14,15 @@ function App() {
     <div id="wrapper">
       <div className="App">
         <Header />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/highscores" element={<HighScores />} />
-          <Route path="/flags" element={<FlagPage />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/highscores" element={<HighScores />} />
+            <Route path="/flags" element={<FlagsPage />} />
+            <Route path="/flags/brawl" element={<FlagPage />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </div>
         <Footer />
       </div>
     </div>

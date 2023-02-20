@@ -1,0 +1,19 @@
+.wrapper {
+  display: grid;
+  height: 75%;
+  margin-top: 15%;
+}
+
+.homepage {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  place-items: center;
+}
+
+.flagspage {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  place-items: center;
+}

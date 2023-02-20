@@ -6,6 +6,13 @@
   height: 100vh;
 }
 
+.content {
+  display: grid;
+  height: 100%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
 .grid-item-1 {
   grid-column: 1;
 }

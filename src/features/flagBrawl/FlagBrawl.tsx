@@ -104,11 +104,10 @@ function FlagPage() {
 
   return (
     <div>
-      <div>FLAG QUIZ</div>
       <div>
         {!countries.length && <div>Please wait. Creating Quiz...</div>}
         {countries.length > 0 && !isQuizActive && (
-          <div onClick={handleStartNewQuiz} className="standard-button">
+          <div onClick={handleStartNewQuiz} className="icon">
             Start Quiz
           </div>
         )}
