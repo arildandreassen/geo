@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  font-family: "Open Sans";
+  color: black;
+  background-color: #fafafa;
+  height: 100vh;
 }
 
 .grid-item-1 {
@@ -23,11 +27,11 @@
 }
 
 .grid-item-6 {
-  grid-column:6 ;
+  grid-column: 6;
 }
 
 .grid-item-7 {
-  grid-column: 7 ;
+  grid-column: 7;
 }
 
 .grid-item-8 {
@@ -35,7 +39,7 @@
 }
 
 .grid-item-9 {
-  grid-column:9 ;
+  grid-column: 9;
 }
 
 .grid-item-10 {
@@ -50,20 +54,22 @@
   justify-self: end;
 }
 
-.standard-button {
-  display: inline-block;
-  background-color: #344DA1;
-  color: white;
-  border-radius: 25px;
-  font-size: 1.3rem;  
+.standard-link {
   white-space: nowrap;
-  width: auto;
-  margin: 0 5px 0 5px;
-  cursor: pointer;
-  padding: 4px 10px 4px 10px;
+  padding: 1px 10px 1px 10px;
+  text-decoration: none;
+  color: #fafafa;
 }
 
-.standard-button a {
-  color: white;
+.standard-link:hover {
+  color: rgb(6, 140, 202);
   text-decoration: none;
+}
+
+.footer-container {
+  background-color: #022d4e;
+  position: fixed;
+  bottom: 0;
+  border-top: #333333 1px solid;
+  width: 100%;
 }

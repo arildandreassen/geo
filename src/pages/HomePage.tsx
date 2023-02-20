@@ -1,10 +1,7 @@
-import * as React from 'react'
+import * as React from "react";
 
 function HomePage() {
-
-    return <div>
-        Home Page
-    </div>
+  return <div className="page">Home Page</div>;
 }
 
-export default HomePage
+export default HomePage;

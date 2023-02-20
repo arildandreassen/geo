@@ -1,30 +1,24 @@
 .header-container {
-    display: grid;
-    align-items: center;
-    grid-template-columns: [extra] 1fr [logo] 30fr [extra] 1fr[home] 1fr [flags] 1fr [high scores] 1fr [profile] 1fr [extra] 1fr;
-    grid-template-rows: [line] 70px;
-    border: 1px solid black;
-    justify-content: space-evenly;
+  display: grid;
+  background-color: #022d4e;
+  align-items: center;
+  grid-template-columns: [extra] 1fr [logo] 30fr [extra] 1fr[home] 1fr [flags] 1fr [high scores] 1fr [profile] 1fr [extra] 1fr;
+  grid-template-rows: [line] 30px;
+  border: 1px solid black;
+  justify-content: space-evenly;
 }
 
-.logo{
-    font-size: 3rem;
-    font-family: 'Mukta', sans-serif;
-    text-shadow: 1px 0 0 black, -1px 0 0 black, 0 1px 0 black, 0 -1px 0 black;
+.logo {
+  font-size: 3rem;
+  font-family: "Mukta", sans-serif;
+  text-shadow: 1px 0 0 black, -1px 0 0 black, 0 1px 0 black, 0 -1px 0 black;
+  cursor: pointer;
 }
 
-.logo span:nth-child(1){
-    color: #344DA1;
-}
-
-.logo span:nth-child(2){
-    color: #89b536;
-}
-
-.logo span:nth-child(3){
-    color: #344DA1;
+.logo {
+  color: #fafafa;
 }
 
 .header-items {
-    justify-self: start;
+  justify-self: start;
 }

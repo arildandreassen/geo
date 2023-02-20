@@ -1,7 +1,10 @@
 {
   "plugins": [
-    ["import-directory", {
-      "exts": ["js", "es6", "es", "jsx", "javascript", "tsx"]
-    }]
+    [
+      "import-directory",
+      {
+        "exts": ["js", "es6", "es", "jsx", "javascript", "tsx"]
+      }
+    ]
   ]
 }
