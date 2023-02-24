@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStopwatch } from "react-use-precision-timer";
 import countries from "../../assets/countries/countries.json";
 import {
@@ -13,6 +13,18 @@ import { addHighscore } from "../../services/highscores";
 import Timer from "../../components/Timer";
 import QuizResult from "./QuizResult";
 import "./FlagBrawl.css";
+// import flags from "../../assets/flags";
+
+const preloadFlags = () => {
+  const images = [];
+  for (const country of countries) {
+    const flagImage = `${country.country_code}.svg`;
+    const image = new Image();
+    image.src = require(`../../assets/flags/${flagImage}`);
+    images.push(image);
+  }
+  return images;
+};
 
 function FlagBrawl() {
   const numberOfCountriesInQuiz = 10;
@@ -25,7 +37,11 @@ function FlagBrawl() {
   const [canSave, setCanSave] = useState(false);
   const [showBetterLuckNextTime, setShowBetterLuckNextTime] = useState(false);
 
-  // useEffect(() => {}, [quizResult]);
+  useEffect(() => {
+    // storing a reference to the images
+    // eslint-disable-next-line
+    const images = preloadFlags();
+  }, []);
 
   const getCountryName = (countryId: string) => {
     const country = countries.find((country) => country.id === countryId);

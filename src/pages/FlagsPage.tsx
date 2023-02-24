@@ -8,7 +8,7 @@ function FlagsPage() {
     <div className="wrapper">
       <div className="flagspage">
         {icons.map((icon) => {
-          return <MenuIcon name={icon} path={`/flags/brawl`} />;
+          return <MenuIcon name={icon} path={`/flags/brawl`} key={icon} />;
         })}
       </div>
     </div>

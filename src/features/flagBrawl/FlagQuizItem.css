@@ -1,6 +1,7 @@
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr [flag] 9fr [countries] 4fr 2fr;
+  grid-template-columns: 15fr 10fr;
+  width: 100%;
   column-gap: 30px;
 }
 

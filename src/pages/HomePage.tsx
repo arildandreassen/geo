@@ -9,7 +9,7 @@ function HomePage() {
     <div className="wrapper">
       <div className="homepage">
         {icons.map((icon) => {
-          return <MenuIcon name={icon} path={"/flags"} />;
+          return <MenuIcon name={icon} path={"/flags"} key={icon} />;
         })}
       </div>
     </div>

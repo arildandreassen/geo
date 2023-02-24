@@ -4,7 +4,7 @@ import countries from "../../assets/countries/countries.json";
 
 function CountrySelection({ countryIds, handleCountryClick }: any) {
   return (
-    <div className="grid-item grid-item-3 country-grid">
+    <div className="grid-item grid-item-2 country-grid">
       {countryIds.map((countryId: string, index: number) => {
         const { name } = countries.find((country: Country) => country.id === countryId);
         return (

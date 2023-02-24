@@ -6,7 +6,9 @@ const addHighscore = async (name: string, score: number) =>
     body: JSON.stringify({ name, score }),
   }).then(async (response) => await response.json());
 
-const listHighscores = async () =>
-  await fetch(`${config.BASE_URL}/highscores`).then(async (response) => await response.json());
+const listHighscores = async (signal: any) =>
+  await fetch(`${config.BASE_URL}/highscores`, { signal }).then(
+    async (response) => await response.json()
+  );
 
 export { addHighscore, listHighscores };

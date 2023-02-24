@@ -9,16 +9,13 @@ interface Country {
 }
 
 function FlagImage({ country }: Country) {
-  const fileExtension = "svg";
-  const flagImage = `${country.country_code}`;
-  // eslint-disable-next-line
-  const flag = require(`../../assets/flags/${flagImage}.${fileExtension}`);
+  const flagImage = `${country.country_code}.svg`;
   return (
-    <div className="grid-item grid-item-2">
+    <div className="grid-item grid-item-1">
       <img
         alt="country-flag"
         style={{ height: "400px", border: "1px solid black" }}
-        src={`${flag}`}
+        src={require(`../../assets/flags/${flagImage}`)}
       />
     </div>
   );
