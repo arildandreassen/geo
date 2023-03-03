@@ -4,6 +4,7 @@
   width: 100%;
   align-items: center;
   justify-items: center;
+  grid-template-rows: 5% 50% 40% auto;
 }
 
 .flagbrawl .icon {

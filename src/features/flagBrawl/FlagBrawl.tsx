@@ -68,6 +68,7 @@ function FlagBrawl() {
     }
     setQuiz(quiz);
     setIsQuizActive(true);
+    setCanSave(false);
     setShowBetterLuckNextTime(false);
   };
 
@@ -85,10 +86,12 @@ function FlagBrawl() {
 
   const handleEndOfQuiz = () => {
     stopwatch.pause();
-    setIsQuizActive(false);
-    const hasIncorrect = quizResult.some((result) => result.status === "incorrect");
-    setCanSave(!hasIncorrect);
-    setShowBetterLuckNextTime(hasIncorrect);
+    setTimeout(() => {
+      setIsQuizActive(false);
+      const hasIncorrect = quizResult.some((result) => result.status === "INCORRECT");
+      setCanSave(!hasIncorrect);
+      setShowBetterLuckNextTime(hasIncorrect);
+    }, 300000);
   };
 
   const saveHighScore = () => {
@@ -102,7 +105,7 @@ function FlagBrawl() {
 
   const handleCountryClick = async (event: any) => {
     const guessedId = event.target.getAttribute("data-country-id");
-    const status = isSelectionCorrect(guessedId) ? "correct" : "incorrect";
+    const status = isSelectionCorrect(guessedId) ? "CORRECT" : "INCORRECT";
     const body: Answer = {
       country_code: getCountryCode(guessedId),
       name: getCountryName(guessedId),
@@ -122,7 +125,7 @@ function FlagBrawl() {
   return (
     <div className="flagbrawl">
       {countries.length > 0 && !isQuizActive && (
-        <div onClick={handleStartNewQuiz} className="icon">
+        <div onClick={handleStartNewQuiz} className="icon grid-row-2">
           Start
         </div>
       )}
@@ -136,7 +139,7 @@ function FlagBrawl() {
       ) : null}
       {isQuizActive ? <QuizResult quizResult={quizResult} /> : null}
       {canSave ? (
-        <div className="standard-button" onClick={saveHighScore}>
+        <div className="icon" onClick={saveHighScore}>
           Save Highscore
         </div>
       ) : null}

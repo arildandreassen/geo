@@ -14,7 +14,7 @@ function Timer({ stopwatch }: any) {
 
   return (
     <div>
-      <div className="timer">{time}s</div>
+      <div className="timer grid-row-1">{time}s</div>
     </div>
   );
 }

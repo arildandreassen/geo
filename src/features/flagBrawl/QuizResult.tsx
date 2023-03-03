@@ -7,19 +7,20 @@ function QuizResult({ quizResult }: any) {
 
   return (
     <div className="quizresult">
+      <div className="result-header">Result</div>
       {quizResult.map((result: any) => {
         const { country_code, name, status, duration } = result;
         return (
           <div className="quizresult-container" key={`${name}_${status}`}>
-            <div className="grid-item-2 justify-end">
+            <div className="grid-item-1 justify-end image">
               <img
                 src={require(`../../assets/flags/${country_code}.${fileExtension}`)}
-                style={{ height: "10px", border: "1px solid black" }}
+                style={{ height: "20px", border: "1px solid black" }}
               />
             </div>
-            <div className="grid-item-3 justify-start">{name}</div>
-            <div className={`grid-item-4 ${status}`}>{status}</div>
-            <div className="grid-item-5">{formatDuration(duration)}</div>
+            <div className="grid-item-2 justify-start country-name-wrapper">{name}</div>
+            <div className={`grid-item-3 ${status.toLowerCase()}`}>{status}</div>
+            <div className="grid-item-4 time">{formatDuration(duration)}</div>
           </div>
         );
       })}
