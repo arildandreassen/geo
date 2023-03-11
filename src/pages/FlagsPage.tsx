@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./Pages.css";
 import MenuIcon from "../components/MenuIcon";
-const icons = ["brawl", "counter", "practice"];
+const icons = ["brawl"];
 
 function FlagsPage() {
   return (

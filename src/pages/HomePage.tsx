@@ -2,7 +2,7 @@ import * as React from "react";
 import "./Pages.css";
 
 import MenuIcon from "../components/MenuIcon";
-const icons = ["flags", "borders", "cities", "last", "five"];
+const icons = ["flags"];
 
 function HomePage() {
   return (

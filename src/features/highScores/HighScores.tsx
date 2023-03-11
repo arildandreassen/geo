@@ -19,12 +19,19 @@ function HighScores() {
   return (
     <div className="highscores">
       <div className="title">High Scores</div>
+      <div className="highscore-container header">
+        <div className="grid-item-2">Rank #</div>
+        <div className="grid-item-3">Name</div>
+        <div className="grid-item-4">Time</div>
+      </div>
+
       {highscores.length > 0 ? (
-        highscores.map(({ name, score }) => {
+        highscores.map(({ name, score }, index) => {
           return (
             <div className="highscore-container" key={name + score}>
-              <div className="grid-item-2 score-item">{name}</div>
-              <div className="grid-item-3 score-item">{formatDuration(score)}</div>
+              <div className="grid-item-2">{index + 1}</div>
+              <div className="grid-item-3 score-item">{name}</div>
+              <div className="grid-item-4 score-item">{formatDuration(score)}</div>
             </div>
           );
         })

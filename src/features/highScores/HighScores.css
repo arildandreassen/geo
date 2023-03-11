@@ -1,12 +1,18 @@
-
 .highscores .title {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    font-size: larger;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: larger;
 }
 
 .highscore-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 2fr;
-    column-gap: 30px
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 30px;
+  font-weight: bold;
+}
+
+.header {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: solid;
 }

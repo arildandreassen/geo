@@ -33,6 +33,8 @@ function FlagBrawl() {
   const [quiz, setQuiz] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [isQuizActive, setIsQuizActive] = useState(false);
+  const [showFlagQuiz, setShowFlagQuiz] = useState(false);
+  const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState([]);
   const [canSave, setCanSave] = useState(false);
   const [showBetterLuckNextTime, setShowBetterLuckNextTime] = useState(false);
@@ -68,6 +70,8 @@ function FlagBrawl() {
     }
     setQuiz(quiz);
     setIsQuizActive(true);
+    setShowFlagQuiz(true);
+    setShowResult(true);
     setCanSave(false);
     setShowBetterLuckNextTime(false);
   };
@@ -86,12 +90,11 @@ function FlagBrawl() {
 
   const handleEndOfQuiz = () => {
     stopwatch.pause();
-    setTimeout(() => {
-      setIsQuizActive(false);
-      const hasIncorrect = quizResult.some((result) => result.status === "INCORRECT");
-      setCanSave(!hasIncorrect);
-      setShowBetterLuckNextTime(hasIncorrect);
-    }, 300000);
+    setIsQuizActive(false);
+    setShowFlagQuiz(false);
+    const hasIncorrect = quizResult.some((result) => result.status === "INCORRECT");
+    setCanSave(!hasIncorrect);
+    setShowBetterLuckNextTime(hasIncorrect);
   };
 
   const saveHighScore = () => {
@@ -124,26 +127,29 @@ function FlagBrawl() {
 
   return (
     <div className="flagbrawl">
-      {countries.length > 0 && !isQuizActive && (
-        <div onClick={handleStartNewQuiz} className="icon grid-row-2">
-          Start
+      {quiz.length > 0 ? <Timer stopwatch={stopwatch} /> : null}
+      {!isQuizActive && (
+        <div className="grid-row-2">
+          {
+            <div onClick={handleStartNewQuiz} className="icon">
+              Start
+            </div>
+          }
+          {canSave ? (
+            <div className="icon" onClick={saveHighScore}>
+              Save Highscore
+            </div>
+          ) : null}
         </div>
       )}
-      {quiz.length > 0 ? <Timer stopwatch={stopwatch} /> : null}
-      {isQuizActive ? (
+      {showFlagQuiz ? (
         <FlagQuizItem
           quizItem={quiz[quizIndex]}
           countries={countries}
           handleCountryClick={handleCountryClick}
         />
       ) : null}
-      {isQuizActive ? <QuizResult quizResult={quizResult} /> : null}
-      {canSave ? (
-        <div className="icon" onClick={saveHighScore}>
-          Save Highscore
-        </div>
-      ) : null}
-      {showBetterLuckNextTime ? <div>Better Luck next time</div> : null}
+      {showResult ? <QuizResult quizResult={quizResult} /> : null}
     </div>
   );
 }
