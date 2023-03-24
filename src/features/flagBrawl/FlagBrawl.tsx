@@ -28,7 +28,7 @@ const preloadFlags = () => {
 
 function FlagBrawl() {
   const numberOfCountriesInQuiz = 10;
-  const numberOfIncorrectChoices = 1;
+  const numberOfIncorrectChoices = 7;
   const stopwatch = useStopwatch();
   const [quiz, setQuiz] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
