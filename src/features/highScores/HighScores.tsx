@@ -26,11 +26,11 @@ function HighScores() {
       </div>
 
       {highscores.length > 0 ? (
-        highscores.map(({ name, score }, index) => {
+        highscores.map(({ display_name, score }, index) => {
           return (
-            <div className="highscore-container" key={name + score}>
+            <div className="highscore-container" key={display_name + score}>
               <div className="grid-item-2">{index + 1}</div>
-              <div className="grid-item-3 score-item">{name}</div>
+              <div className="grid-item-3 score-item">{display_name}</div>
               <div className="grid-item-4 score-item">{formatDuration(score)}</div>
             </div>
           );
