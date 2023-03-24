@@ -28,7 +28,7 @@ const preloadFlags = () => {
 
 function FlagBrawl() {
   const numberOfCountriesInQuiz = 10;
-  const numberOfIncorrectChoices = 7;
+  const numberOfIncorrectChoices = 1;
   const stopwatch = useStopwatch();
   const [quiz, setQuiz] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
@@ -36,8 +36,7 @@ function FlagBrawl() {
   const [showFlagQuiz, setShowFlagQuiz] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState([]);
-  const [canSave, setCanSave] = useState(false);
-  const [showBetterLuckNextTime, setShowBetterLuckNextTime] = useState(false);
+  const [canSave, setCanSave] = useState(true);
 
   useEffect(() => {
     // storing a reference to the images
@@ -72,8 +71,7 @@ function FlagBrawl() {
     setIsQuizActive(true);
     setShowFlagQuiz(true);
     setShowResult(true);
-    setCanSave(false);
-    setShowBetterLuckNextTime(false);
+    setCanSave(true);
   };
 
   const isSelectionCorrect = (guessedId: any) => {
@@ -92,18 +90,15 @@ function FlagBrawl() {
     stopwatch.pause();
     setIsQuizActive(false);
     setShowFlagQuiz(false);
-    const hasIncorrect = quizResult.some((result) => result.status === "INCORRECT");
-    setCanSave(!hasIncorrect);
-    setShowBetterLuckNextTime(hasIncorrect);
   };
 
   const saveHighScore = () => {
+    setCanSave(false);
     const profileString = window.localStorage.getItem("profile");
     const profile = JSON.parse(profileString);
     const time = calculateQuizTime(quizResult);
-    const name = `${profile.firstname} ${profile.lastname}`;
-    addHighscore(name, time);
-    setCanSave(false);
+    const displayName = `${profile.displayName}`;
+    addHighscore(displayName, time);
   };
 
   const handleCountryClick = async (event: any) => {
@@ -135,7 +130,9 @@ function FlagBrawl() {
               Start
             </div>
           }
-          {canSave ? (
+          {canSave === true &&
+          quizResult.length === numberOfCountriesInQuiz &&
+          !quizResult.some((result) => result.status === "INCORRECT") ? (
             <div className="icon" onClick={saveHighScore}>
               Save Highscore
             </div>

@@ -1,75 +1,91 @@
-import * as React from 'react';
-import {useState, useEffect} from 'react';
-import './Profile.css'
+import * as React from "react";
+import { useState, useEffect } from "react";
+import "./Profile.css";
 
 function Profile() {
-    const defaultProfile = {
-        firstname:'',
-        lastname:''
+  const defaultProfile = {
+    displayName: "",
+  };
+
+  const [profile, setProfile] = useState(defaultProfile);
+  const [readOnly, setReadOnly] = useState(true);
+  const [previousState, setPreviousState] = useState(null);
+
+  const getProfile = () => {
+    return window.localStorage.getItem("profile");
+  };
+
+  useEffect(() => {
+    const current = getProfile();
+    if (current) {
+      setProfile(JSON.parse(current));
     }
+  }, []);
 
-    const [profile, setProfile] = useState(defaultProfile)
-    const [canEdit, setCanEdit] = useState(false);
+  const handleFormChange = (event: any) => {
+    const { name, value } = event.target;
+    setProfile((profile) => {
+      return {
+        ...profile,
+        [name]: value,
+      };
+    });
+  };
 
-    const getProfile = () => {
-        return window.localStorage.getItem('profile')
-    }
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    window.localStorage.setItem("profile", JSON.stringify(profile));
+    setReadOnly(!readOnly);
+    console.log("submit");
+  };
 
-    useEffect(() => {
-        const current = getProfile()
-        if(current){
-            setProfile(JSON.parse(current))
-        }
-    },[])
+  const handleCancel = (event: any) => {
+    event.preventDefault();
+    console.log(previousState);
+    setProfile(() => {
+      return previousState;
+    });
+    setReadOnly(!readOnly);
+  };
 
-    const handleFormChange = (event:any) => {
-        const {name, value} = event.target
-        setProfile(profile => {
-            return {
-                ...profile,
-                [name]: value
-            }
-        })
-    }
+  const handleEdit = (event: any) => {
+    const state = JSON.parse(window.localStorage.getItem("profile"));
+    setPreviousState(state);
+    event.preventDefault();
+    setReadOnly(!readOnly);
+  };
 
-
-    const handleSubmit = () => {
-        window.localStorage.setItem('profile', JSON.stringify(profile))
-        setCanEdit(false)
-    }
-
-    const handleEdit = () => {
-        setCanEdit(true)
-    }
-
-    return <div>
-        <div>Profile</div>
-        <div className='profile-container'>
-        {canEdit ?
-            <form onSubmit={handleSubmit} className='grid-item-2' >
-                <div className='grid-item-2 profile-container'>
-                    <label>First name: </label>
-                    <input type='text' name='firstname' onChange={handleFormChange} value={profile?.firstname}></input>
-                </div>
-                <div className='grid-item-2 profile-container'>
-                    <label>Last name: </label>
-                    <input type='text' name='lastname' onChange={handleFormChange} value={profile?.lastname}></input>
-                </div>
-                <input type='submit' value='Save' className='standard-button grid-item-2'/>
-            </form>: 
-            <>
-                <div className='grid-item-2 profile-container'>
-                    <label>First name:</label>
-                    <div>{profile.firstname}</div>
-                </div>
-                <div className='grid-item-2 profile-container'>
-                    <label>Last name:</label>
-                    <div>{profile.lastname}</div>
-                </div>
-                <div className='grid-item-2'><div onClick={handleEdit} className='standard-button'>Edit</div></div>
-            </>}
+  return (
+    <div>
+      <fieldset>
+        <legend>Profile</legend>
+        <div className="profile-container">
+          <form onSubmit={handleSubmit} className="grid-item-2">
+            <div className="profile-data">
+              <div className="profile-row">
+                <label>Display Name: </label>
+                <input
+                  type="text"
+                  name="displayName"
+                  onChange={handleFormChange}
+                  value={profile?.displayName}
+                  readOnly={readOnly}
+                ></input>
+              </div>
+            </div>
+            {readOnly === false ? (
+              <input type="button" onClick={handleCancel} value="Cancel" />
+            ) : null}
+            {readOnly === false ? (
+              <input type="submit" value="Save" />
+            ) : (
+              <input type="button" onClick={handleEdit} value="Edit" />
+            )}
+          </form>
         </div>
+      </fieldset>
     </div>
+  );
 }
 
-export default Profile
+export default Profile;
