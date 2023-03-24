@@ -1,19 +1,18 @@
 import * as React from "react";
 import "./Pages.css";
-
 import MenuIcon from "../components/MenuIcon";
-const icons = ["flags"];
+const icons = ["brawl"];
 
-function HomePage() {
+function FlagsPage() {
   return (
     <div className="wrapper">
-      <div className="homepage">
+      <div className="flagspage">
         {icons.map((icon) => {
-          return <MenuIcon name={icon} path={"/flags"} key={icon} />;
+          return <MenuIcon name={icon} path={`/flags/brawl`} key={icon} />;
         })}
       </div>
     </div>
   );
 }
 
-export default HomePage;
+export default FlagsPage;

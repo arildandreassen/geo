@@ -1,20 +1,20 @@
-# name: Pull Request Build
+name: Pull Request Build
 
-# on:
-#   pull_request:
-#     branches:
-#       - main
-#     types:
-#       - opened
-#       - reopened
-#       - synchronize
-# env:
-#   SVAR: something
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+env:
+  SVAR: something
 
-# jobs:
-#   deploy-pr-app:
-#     uses: ./.github/workflows/deploy-to-aws.yaml
-#     secrets: inherit
-#     with: 
-#       stack-suffix: pr-${{ github.event.pull_request.number }}
-#       targetEnv: 'dev'
+jobs:
+  deploy-pr-app:
+    uses: ./.github/workflows/deploy-to-aws.yaml
+    secrets: inherit
+    with:
+      stack-suffix: pr-${{ github.event.pull_request.number }}
+      targetEnv: "dev"

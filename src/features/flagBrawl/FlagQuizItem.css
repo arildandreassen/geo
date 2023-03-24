@@ -1,0 +1,46 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 15fr 10fr;
+  width: 100%;
+  column-gap: 30px;
+}
+
+.grid-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.country-grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  row-gap: 7px;
+}
+
+.country-item-1 {
+  grid-row: 1;
+}
+
+.country-item-2 {
+  grid-row: 2;
+}
+
+.country-selection {
+  display: flex;
+  background-color: #022d4e;
+  color: white;
+  text-shadow: 1px 0 0 black, -1px 0 0 black, 0 1px 0 black, 0 -1px 0 black;
+  height: 100%;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  border-radius: 25px;
+}
+
+.country-selection:hover {
+  background-color: rgb(6, 140, 202);
+  color: black;
+  cursor: pointer;
+}
